@@ -1,11 +1,10 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "dsbackend.fullname" . -}}
 {{- $servicePort := .Values.service.port -}}
 {{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ template "fullname" . }}
   labels:
     app: {{ template "dsbackend.name" . }}
     chart: {{ template "dsbackend.chart" . }}
@@ -33,7 +32,7 @@ spec:
         paths:
           - path: {{ $ingressPath }}
             backend:
-              serviceName: {{ $fullName }}
+              serviceName: {{ template "fullname" . }}
               servicePort: http
   {{- end }}
 {{- end }}
